@@ -2,28 +2,73 @@ select#colorBlindMode {
     padding: 10px;
     font-size: 16px;
     border: 2px solid #007bff;
+    /* Blue border */
     border-radius: 5px;
+    /* Rounded corners */
     background-color: #f0f0f0;
+    /* Light gray background */
     color: #333;
+    /* Dark text */
     cursor: pointer;
+    /* Pointer cursor */
     outline: none;
+    /* Remove outline */
     transition: background-color 0.3s ease, border-color 0.3s ease;
+    /* Smooth transition */
 }
 
 select#colorBlindMode:hover {
     background-color: #e6f2ff;
+    /* Light blue on hover */
     border-color: #0056b3;
+    /* Darker blue border on hover */
 }
 
 select#colorBlindMode:focus {
     border-color: #0056b3;
+    /* Dark blue border on focus */
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    /* Blue shadow on focus */
 }
 
 select#colorBlindMode option[disabled] {
     color: #999;
+    /* Gray color for disabled option */
 }
 
 #toggler {
     padding-left: 60px;
+    /* Padding on left side for positioning */
+}
+
+.add-to-cart-button {
+    background-color: #4CAF50;
+    /* Green background */
+    border: none;
+    /* No border */
+    color: white;
+    /* White text */
+    padding: 10px 20px;
+    /* Padding */
+    text-align: center;
+    /* Center text */
+    text-decoration: none;
+    /* No underline */
+    display: inline-block;
+    /* Inline block display */
+    font-size: 16px;
+    /* Font size */
+    margin: 4px 2px;
+    /* Margin around button */
+    cursor: pointer;
+    /* Pointer cursor */
+    border-radius: 5px;
+    /* Rounded corners */
+    transition: background-color 0.3s;
+    /* Smooth background color transition */
+}
+
+.add-to-cart-button:hover {
+    background-color: #45a049;
+    /* Darker green on hover */
 }
