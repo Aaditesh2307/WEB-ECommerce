@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/style.css">
-    <title> E-COMMERCE WEBSITE BY EDYODA | CREATED BY PRIYANKA SHARMA </title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- <link rel="stylesheet" href="css/header.css"> -->
+    <title> E-COMMERCE WEBSITE BY EDYODA | CREATED BY Aaditesh, Sayee, Pranjali </title>
     <!-- favicon -->
     <link rel="icon"
         href="https://yt3.ggpht.com/a/AGF-l78km1YyNXmF0r3-0CycCA0HLA_i6zYn_8NZEg=s900-c-k-c0xffffffff-no-rj-mo"
@@ -15,14 +16,13 @@
     <script src="https://kit.fontawesome.com/4a3b1f73a2.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
     <!-- slider links -->
-    <!-- <script src="http://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script> -->
     <script src="js/jQuery3.4.1.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
 </head>
 
 <body>
-    <div id="colorBlindOverlay"></div>
+
     <!-- HEADER -->
     <div id="1"></div>
     <script>
@@ -34,6 +34,7 @@
             document.getElementById(1).innerHTML = req.responseText;
         }
     </script>
+
     <!-- SLIDER -->
     <div id="2"></div>
     <script>
@@ -45,6 +46,19 @@
             document.getElementById(2).innerHTML = req.responseText;
         }
     </script>
+
+    <!-- Color Blindness Toggle -->
+    <div id="toggler">
+        <select id="colorBlindMode" onchange="setColorBlindMode(this.value)">
+            <option value="" disabled selected>Select Color Mode</option>
+            <option value="none">None</option>
+            <option value="deuteranopia">Deuteranopia</option>
+            <option value="protanopia">Protanopia</option>
+            <option value="tritanopia">Tritanopia</option>
+        </select>
+    </div>
+
+
 
     <!-- CONTENT SECTION -->
     <div id="3"></div>
@@ -70,79 +84,100 @@
         }
     </script>
 
+    <!-- Color blindness JavaScript -->
     <script>
         function setColorBlindMode(mode) {
-            const overlay = document.getElementById('colorBlindOverlay');
+            const body = document.body;
+            body.style.filter = '';  // Reset any existing filters
 
             switch (mode) {
                 case "deuteranopia":
-                    overlay.style.backgroundColor = 'rgba(255, 200, 0, 0.5)'; // Yellowish filter for Deuteranopia
-                    overlay.style.display = 'block';
+                    body.style.filter = 'url(#deuteranopia-filter)';
                     break;
                 case "protanopia":
-                    overlay.style.backgroundColor = 'rgba(255, 0, 0, 0.5)'; // Reddish filter for Protanopia
-                    overlay.style.display = 'block';
+                    body.style.filter = 'url(#protanopia-filter)';
                     break;
                 case "tritanopia":
-                    overlay.style.backgroundColor = 'rgba(0, 255, 255, 0.5)'; // Cyan filter for Tritanopia
-                    overlay.style.display = 'block';
+                    body.style.filter = 'url(#tritanopia-filter)';
                     break;
                 default:
-                    overlay.style.display = 'none'; // No overlay for "none"
+                    body.style.filter = 'none';  // No filter for default
             }
         }
-
     </script>
-    <!-- Color blindness overlay -->
 
+    <!-- SVG filters for color blindness simulation -->
+    <svg xmlns="http://www.w3.org/2000/svg">
+        <filter id="protanopia-filter">
+            <feColorMatrix type="matrix" values="0.567 0.433 0 0 0 0.558 0.442 0 0 0 0 0.242 0.758 0 0 0 0 0 1 0" />
+        </filter>
+        <filter id="deuteranopia-filter">
+            <feColorMatrix type="matrix" values="0.625 0.375 0 0 0 0.7 0.3 0 0 0 0 0.3 0.7 0 0 0 0 0 1 0" />
+        </filter>
+        <filter id="tritanopia-filter">
+            <feColorMatrix type="matrix" values="0.95 0.05 0 0 0 0 0.433 0.567 0 0 0 0.475 0.525 0 0 0 0 0 1 0" />
+        </filter>
+    </svg>
+
+    <!-- slider JS START -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+
+    <script>
+        window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        recognition.interimResults = true;
+
+        recognition.addEventListener('result', (e) => {
+            const transcript = Array.from(e.results)
+                .map(result => result[0])
+                .map(result => result.transcript)
+                .join('').toLowerCase();
+
+            // Change color mode based on voice commands
+            if (transcript.includes('no blindness')) {
+                setColorBlindMode('none');
+            } else if (transcript.includes('blindness one')) {
+                setColorBlindMode('deuteranopia');
+            } else if (transcript.includes('blindness two')) {
+                setColorBlindMode('protanopia');
+            } else if (transcript.includes('blindness three')) {
+                setColorBlindMode('tritanopia');
+            }
+
+            // Other voice commands
+            if (transcript.includes('scroll up')) {
+                window.scrollBy(0, -100);
+            }
+            if (transcript.includes('scroll down')) {
+                window.scrollBy(0, 100);
+            }
+            if (transcript.includes('open cart')) {
+                window.location.assign('cart.html');
+            }
+        });
+
+        recognition.addEventListener('end', recognition.start);
+        recognition.start();
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            $('#containerSlider').slick({
+                dots: true,
+                infinite: true,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 1500,
+            });
+        });
+    </script>
+    <!-- slider JS ENDS -->
+
+    <!-- content JS -->
+    <script src="content.js"></script>
 
 </body>
-
-<!-- slider JS START -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
-
-<script>
-    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    recognition.interimResults = true;
-
-    recognition.addEventListener('result', (e) => {
-        const transcript = Array.from(e.results)
-            .map(result => result[0])
-            .map(result => result.transcript)
-            .join('').toLowerCase();
-
-        if (transcript.includes('scroll up')) {
-            window.scrollBy(0, -100);
-        }
-        if (transcript.includes('scroll down')) {
-            window.scrollBy(0, 100);
-        }
-        if (transcript.includes('open cart')) {
-            window.location.assign('cart.html');
-        }
-
-    });
-
-    recognition.addEventListener('end', recognition.start);
-    recognition.start();
-
-</script>
-<script>
-    $(document).ready(function () {
-        $('#containerSlider').slick({
-            dots: true,
-            infinite: true,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            autoplay: true,
-            autoplaySpeed: 1500,
-        });
-    });
-</script>
-<!-- slider JS ENDS -->
-
-<!-- content JS -->
-<script src="content.js"></script>
 
 </html>
